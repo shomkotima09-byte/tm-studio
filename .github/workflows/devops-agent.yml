@@ -1,0 +1,47 @@
+name: TM Studio — Agente DevOps & Mantenimiento 24/7
+
+on:
+  schedule:
+    # Se ejecuta automáticamente cada 6 horas todos los días
+    - cron: '0 */6 * * *'
+  workflow_dispatch: # Permite ejecutar la auditoría manualmente desde GitHub con 1 solo clic
+  push:
+    branches:
+      - main
+    paths:
+      - 'index.html'
+      - 'admin.html'
+      - 'api/**'
+
+permissions:
+  contents: write
+
+jobs:
+  devops-monitor-and-notify:
+    name: Inspección 24/7, Auto-Fix y Reporte Discord
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📦 Clonar repositorio
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.AUTOFIX_TOKEN || secrets.GITHUB_TOKEN }}
+
+      - name: ⚙️ Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: 📥 Instalar dependencias
+        run: npm install
+
+      - name: 🤖 Ejecutar Agente DevOps y Notificación a Discord
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.AUTOFIX_TOKEN || secrets.GITHUB_TOKEN }}
+          GITHUB_OWNER: ${{ github.repository_owner }}
+          GITHUB_REPO: ${{ github.event.repository.name }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: node scripts/agente-reparador.mjs
