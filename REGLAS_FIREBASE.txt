@@ -1,0 +1,86 @@
+// ==============================================================================
+// TM STUDIO — REGLAS DE SEGURIDAD PARA FIRESTORE DATABASE
+// Archivo: REGLAS_FIREBASE.txt
+// ==============================================================================
+//
+// ¿CÓMO APLICAR ESTAS REGLAS EN TU CONSOLA DE FIREBASE? (3 PASOS FÁCILES)
+//
+// 1. Entra a tu consola de Firebase: https://console.firebase.google.com/
+// 2. En el menú de la izquierda, entra en: "Compilación" -> "Firestore Database".
+// 3. Haz clic en la pestaña superior "Reglas" (Rules), borra lo que haya,
+//    PEGA EL BLOQUE DE CÓDIGO DE ABAJO y haz clic en el botón azul "Publicar".
+// ==============================================================================
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // --------------------------------------------------------------------------
+    // 1. COLECCIÓN DE PRUEBAS ('pruebas_conexion')
+    // Usada por la función probarFirebase() de tu web para comprobar la conexión.
+    // --------------------------------------------------------------------------
+    match /pruebas_conexion/{docId} {
+      // Permite crear un documento de prueba si no está vacío y el mensaje es texto corto
+      allow create: if request.resource.data.mensaje is string
+                    && request.resource.data.mensaje.size() > 0
+                    && request.resource.data.mensaje.size() <= 250;
+      
+      // Permite leer las pruebas para verificar que se guardaron
+      allow read: if true;
+
+      // ¡ESTRICTAMENTE PROHIBIDO BORRAR O MODIFICAR!
+      // Nadie desde la web pública puede alterar o eliminar los registros.
+      allow update, delete: if false;
+    }
+
+    // --------------------------------------------------------------------------
+    // 2. FORMULARIOS DE CONTACTO Y LEADS ('contactos', 'mensajes', 'solicitudes')
+    // Protege los datos de tus futuros clientes y evita que te llenen la base de basura.
+    // --------------------------------------------------------------------------
+    match /contactos/{contactoId} {
+      // Regla de Creación: Solo se permite guardar si los datos son válidos
+      allow create: if request.resource.data.keys().hasAll(['mensaje'])
+                    // El mensaje debe ser texto y no estar vacío (máximo 2000 caracteres)
+                    && request.resource.data.mensaje is string
+                    && request.resource.data.mensaje.size() >= 2
+                    && request.resource.data.mensaje.size() <= 2000
+                    // Si envían nombre, debe ser texto válido
+                    && (!('nombre' in request.resource.data) || (request.resource.data.nombre is string && request.resource.data.nombre.size() <= 100))
+                    // Si envían email, debe ser texto válido
+                    && (!('email' in request.resource.data) || (request.resource.data.email is string && request.resource.data.email.size() <= 120));
+
+      // PRIVACIDAD TOTAL (RGPD): Nadie desde internet puede leer los mensajes de otros clientes.
+      // Solo tú podrás verlos desde tu panel de Firebase Console.
+      allow read: if false;
+
+      // ANTI-SABOTAJE: Nadie puede borrar ni modificar mensajes ya enviados.
+      allow update, delete: if false;
+    }
+
+    // Misma protección para solicitudes o presupuestos
+    match /mensajes/{mensajeId} {
+      allow create: if request.resource.data.mensaje is string
+                    && request.resource.data.mensaje.size() >= 2
+                    && request.resource.data.mensaje.size() <= 2000;
+      allow read, update, delete: if false;
+    }
+
+    // --------------------------------------------------------------------------
+    // 3. BLOQUEO TOTAL POR DEFECTO
+    // Cualquier otra colección o ruta desconocida queda cerrada al 100%.
+    // --------------------------------------------------------------------------
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+
+// ==============================================================================
+// RESUMEN DE PROTECCIÓN QUE TE BRINDAN ESTAS REGLAS:
+//
+// 1. Nadie puede borrar tus datos (allow delete: if false).
+// 2. Nadie puede sobreescribir información ya guardada (allow update: if false).
+// 3. Nadie puede espiar los datos de contacto de tus clientes (allow read: if false en contactos).
+// 4. Bloquea envíos masivos con textos gigantescos o formatos corruptos.
+// 5. Todo el resto de la base de datos queda inaccesible para curiosos.
+// ==============================================================================

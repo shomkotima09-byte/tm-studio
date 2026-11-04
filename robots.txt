@@ -1,0 +1,28 @@
+# ==============================================================================
+# TM STUDIO — ROBOTS.TXT
+# Protocolo de Exclusión de Robots optimizado para Googlebot y buscadores mayores
+# ==============================================================================
+
+User-agent: *
+Allow: /
+
+# Permitir explícitamente recursos estáticos requeridos para el renderizado W3C / Googlebot
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.svg$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.webp$
+Allow: /*.ico$
+Allow: /*.woff2$
+
+# Excluir panel de administración privado, scripts y carpetas de configuración
+Disallow: /admin.html
+Disallow: /server.ps1
+Disallow: /audit.js
+Disallow: /*.md$
+Disallow: /tymurweb/
+
+# Mapa del sitio XML oficial
+Sitemap: https://tmstudio.es/sitemap.xml

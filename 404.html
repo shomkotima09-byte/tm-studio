@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Página no encontrada (Error 404) | TM Studio</title>
+  
+  <meta name="robots" content="noindex, follow" />
+  <meta name="description" content="La página que estás buscando no existe o ha sido movida. Regresa al inicio de TM Studio para ver nuestros servicios de desarrollo web y software." />
+  <meta name="theme-color" content="#2563EB" />
+
+  <!-- Favicon e iconos -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="manifest" href="/site.webmanifest" />
+
+  <!-- Google Fonts: Plus Jakarta Sans & Syne -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['"Syne"', 'sans-serif']
+          },
+          colors: {
+            carbon: {
+              900: '#0F172A',
+              800: '#1E293B',
+              600: '#475569',
+              400: '#94A3B8',
+              200: '#E2E8F0',
+              50: '#F8FAFC'
+            },
+            brand: {
+              blue: '#2563EB',
+              blueDark: '#1D4ED8',
+              soft: '#EFF6FF'
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      background-color: #FFFFFF;
+      color: #0F172A;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .btn-blue {
+      background: #2563EB;
+      color: #FFFFFF;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    .btn-blue:hover {
+      background: #1D4ED8;
+      box-shadow: 0 6px 20px -2px rgba(37, 99, 235, 0.35);
+      transform: translateY(-1px);
+    }
+    .btn-clean {
+      background: #FFFFFF;
+      color: #0F172A;
+      border: 1px solid #E2E8F0;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    .btn-clean:hover {
+      background: #F8FAFC;
+      border-color: #CBD5E1;
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+<body class="bg-white text-carbon-900 selection:bg-brand-blue selection:text-white">
+
+  <!-- Header -->
+  <header class="border-b border-carbon-200/80 bg-white/90 backdrop-blur-md">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2.5 group" title="Ir a la página principal de TM Studio">
+        <img src="tme-studio-emblem.jpg" alt="TM Studio Logo" class="w-9 h-9 rounded-full object-cover ring-2 ring-brand-blue/50 shadow-md group-hover:scale-105 transition-transform" />
+        <span class="font-display font-bold text-base tracking-tight text-carbon-900 group-hover:text-brand-blue transition-colors">
+          TM STUDIO
+        </span>
+      </a>
+      <a href="/" class="text-xs font-semibold text-brand-blue hover:underline">← Volver al inicio</a>
+    </div>
+  </header>
+
+  <!-- Contenido 404 -->
+  <main class="max-w-3xl mx-auto px-6 py-20 text-center flex-1 flex flex-col items-center justify-center">
+    <div class="mb-6 relative group">
+      <div class="absolute -inset-1.5 rounded-full bg-gradient-to-r from-brand-blue to-cyan-400 opacity-30 blur-lg group-hover:opacity-75 transition duration-500"></div>
+      <img src="tme-studio-emblem.jpg" alt="TM Studio" class="relative w-20 h-20 rounded-full object-cover ring-2 ring-brand-blue/60 shadow-2xl group-hover:scale-105 transition-transform duration-300" />
+    </div>
+
+    <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-soft border border-brand-blue/20 text-brand-blue text-xs font-mono font-semibold mb-6">
+      <span>ERROR 404 // URL NO ENCONTRADA</span>
+    </div>
+
+    <h1 class="font-display font-extrabold text-4xl sm:text-6xl text-carbon-900 tracking-tight mb-4">
+      Página No Encontrada
+    </h1>
+
+    <p class="text-carbon-600 text-sm sm:text-base max-w-md mx-auto leading-relaxed mb-8">
+      El enlace que has seguido puede haber cambiado, estar roto o no existir. No te preocupes, puedes volver al inicio o consultar nuestros servicios.
+    </p>
+
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto">
+      <a href="/" class="btn-blue px-7 py-3 rounded-full text-xs font-bold uppercase tracking-wider w-full sm:w-auto text-center">
+        Volver a la Portada
+      </a>
+      <a href="/#servicios" class="btn-clean px-7 py-3 rounded-full text-xs font-semibold uppercase tracking-wider w-full sm:w-auto text-center">
+        Ver Servicios
+      </a>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-carbon-200 bg-carbon-50 py-8 px-6 text-center text-xs font-mono text-carbon-400">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>© 2026 TM Studio. Todos los derechos reservados.</div>
+      <div>Desarrollo Web Profesional, Bots de Discord y Software a Medida</div>
+    </div>
+  </footer>
+
+</body>
+</html>

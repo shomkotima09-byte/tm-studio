@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TM Studio — Desarrollo Web, Bots de Discord & Software a Medida</title>
+  
+  <meta name="description" content="TM Studio: Desarrollo de páginas web profesionales, bots de Discord avanzados y software a medida para negocios y creadores." />
+  <meta name="theme-color" content="#FFFFFF" />
+
+  <!-- Google Fonts: Plus Jakarta Sans & Syne -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['"Syne"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            carbon: {
+              900: '#0F172A',
+              800: '#1E293B',
+              600: '#475569',
+              400: '#94A3B8',
+              200: '#E2E8F0',
+              100: '#F1F5F9',
+              50: '#F8FAFC',
+            },
+            brand: {
+              blue: '#2563EB',
+              blueDark: '#1D4ED8',
+              blueLight: '#3B82F6',
+              cyan: '#06B6D4',
+              soft: '#EFF6FF',
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+  <!-- Three.js (r128) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      background-color: #FFFFFF;
+      color: #0F172A;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Scrollbar sutil */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #FFFFFF; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #2563EB; }
+
+    /* Fondo degradado suave estilo Wix Studio / SaaS */
+    .hero-glow {
+      background: radial-gradient(100% 70% at 75% 25%, #EBF3FF 0%, #F5F9FF 40%, #FFFFFF 80%);
+    }
+
+    /* Tarjetas Minimalistas Luminosas */
+    .clean-card {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .clean-card:hover {
+      border-color: #93C5FD;
+      box-shadow: 0 12px 28px -6px rgba(37, 99, 235, 0.08);
+      transform: translateY(-2px);
+    }
+
+    /* Botón Azul Primario */
+    .btn-blue {
+      background: #2563EB;
+      color: #FFFFFF;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    .btn-blue:hover {
+      background: #1D4ED8;
+      box-shadow: 0 6px 20px -2px rgba(37, 99, 235, 0.35);
+      transform: translateY(-1px);
+    }
+
+    /* Botón Outline Claro */
+    .btn-clean {
+      background: #FFFFFF;
+      color: #0F172A;
+      border: 1px solid #E2E8F0;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    .btn-clean:hover {
+      background: #F8FAFC;
+      border-color: #CBD5E1;
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+<body class="bg-white text-carbon-900 selection:bg-brand-blue selection:text-white">
+
+  <!-- =========================================================================
+       HEADER MINIMALISTA (Blanco & Azul)
+       ========================================================================= -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-carbon-200/80">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      
+      <!-- Logotipo TM Studio -->
+      <a href="#hero" class="flex items-center gap-2.5">
+        <div class="w-7 h-7 rounded-lg bg-brand-blue flex items-center justify-center text-white font-display font-extrabold text-xs">
+          TM
+        </div>
+        <span class="font-display font-bold text-base tracking-tight text-carbon-900">
+          TM STUDIO
+        </span>
+      </a>
+
+      <!-- Menú Desktop -->
+      <nav class="hidden md:flex items-center gap-7 text-xs font-medium text-carbon-600">
+        <a href="#servicios" class="hover:text-brand-blue transition-colors">Servicios</a>
+        <a href="#bots" class="hover:text-brand-blue transition-colors">Bots & Software</a>
+        <a href="#proceso" class="hover:text-brand-blue transition-colors">Proceso</a>
+        <a href="#precios" class="hover:text-brand-blue transition-colors">Precios</a>
+        <a href="#faq" class="hover:text-brand-blue transition-colors">FAQ</a>
+      </nav>
+
+      <!-- Botón Contacto Directo -->
+      <div class="flex items-center gap-3">
+        <a id="header-wa" href="#" target="_blank" class="text-xs px-4 py-2 rounded-full btn-blue flex items-center gap-1.5 shadow-sm">
+          <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+          <span>WhatsApp</span>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <main>
+    <!-- =========================================================================
+         HERO SECTION — BLANCO Y AZUL CON ESCULTURA 3D AZUL ELÉCTRICO (144+ FPS)
+         ========================================================================= -->
+    <section id="hero" class="relative min-h-[90vh] flex items-center pt-20 pb-12 hero-glow overflow-hidden">
+      
+      <!-- Canvas 3D Three.js: Escultura fluida en Azul Eléctrico y Cian en GPU (144Hz+) -->
+      <div id="webgl-hero" class="absolute inset-0 z-0 pointer-events-auto cursor-grab active:cursor-grabbing"></div>
+
+      <div class="relative z-10 max-w-6xl mx-auto px-6 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pointer-events-none">
+        
+        <div class="lg:col-span-8 flex flex-col items-start pointer-events-auto">
+          
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-soft border border-brand-blue/20 text-brand-blue text-[11px] font-mono mb-6">
+            <span class="w-1.5 h-1.5 rounded-full bg-brand-blue animate-pulse"></span>
+            <span>DESARROLLO WEB · BOTS DE DISCORD · SOFTWARE A MEDIDA</span>
+          </div>
+
+          <!-- Titular Principal con tamaño refinado -->
+          <h1 class="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl leading-[1.18] tracking-tight text-carbon-900 mb-5">
+            TU NEGOCIO MERECE UNA WEB <br class="hidden sm:inline" />
+            <span class="text-brand-blue">EXTRAORDINARIA.</span>
+          </h1>
+
+          <!-- Subtítulo refinado -->
+          <p class="text-sm sm:text-base text-carbon-600 font-normal max-w-xl leading-relaxed mb-8">
+            Diseñamos experiencias digitales que convierten visitantes en clientes y transforman negocios en marcas memorables. Páginas web modernas, bots de Discord y software a medida.
+          </p>
+
+          <!-- Dos Botones Exigidos -->
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+            <a id="hero-btn-primary" href="#" target="_blank" class="btn-blue px-6 py-3.5 rounded-full text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm">
+              <span>QUIERO MI PÁGINA WEB</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+
+            <a href="#precios" class="btn-clean px-6 py-3.5 rounded-full text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2">
+              <span>EXPLORAR SERVICIOS Y PLANES</span>
+              <i data-lucide="arrow-down" class="w-3.5 h-3.5 text-carbon-400"></i>
+            </a>
+          </div>
+
+          <!-- Metadatos de Confianza -->
+          <div class="flex items-center gap-8 pt-8 mt-8 border-t border-carbon-200/60 text-xs font-mono text-carbon-600">
+            <div>
+              <span class="font-bold text-carbon-900 block text-sm">100% Código a Medida</span>
+              <span class="text-[10px] text-carbon-400">Sin plantillas lentas</span>
+            </div>
+            <div>
+              <span class="font-bold text-brand-blue block text-sm">Discord 24/7</span>
+              <span class="text-[10px] text-carbon-400">Soporte y bots activos</span>
+            </div>
+            <div>
+              <span class="font-bold text-carbon-900 block text-sm">Carga Rápida</span>
+              <span class="text-[10px] text-carbon-400">Optimizado para móvil</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =========================================================================
+         SERVICIOS REALES (Webs, Bots de Discord, Software a Medida, Mantenimiento)
+         ========================================================================= -->
+    <section id="servicios" class="py-20 px-6 max-w-6xl mx-auto">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+        <div>
+          <span class="text-xs font-mono text-brand-blue uppercase tracking-wider block mb-1">01 // SERVICIOS</span>
+          <h2 class="font-display font-bold text-2xl sm:text-3xl text-carbon-900 tracking-tight">
+            Qué Desarrollamos
+          </h2>
+        </div>
+        <p class="text-carbon-600 text-xs sm:text-sm max-w-md leading-relaxed">
+          Soluciones digitales creadas con código limpio para que tu negocio tenga una presencia profesional y tus herramientas funcionen sin fallos.
+        </p>
+      </div>
+
+      <!-- Grid de Servicios -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+
+        <!-- 1. Páginas Web Profesionales -->
+        <div class="clean-card p-6 rounded-xl flex flex-col justify-between">
+          <div>
+            <div class="w-9 h-9 rounded-lg bg-brand-soft text-brand-blue flex items-center justify-center mb-4">
+              <i data-lucide="layout" class="w-4 h-4"></i>
+            </div>
+            <h3 class="font-display font-bold text-sm text-carbon-900 mb-2">Diseño de páginas web profesionales</h3>
+            <p class="text-xs text-carbon-600 leading-relaxed mb-4">
+              Páginas web para negocios, emprendedores y marcas personales. Diseño limpio, elegante y adaptado a móviles.
+            </p>
+          </div>
+          <span class="text-[10px] font-mono text-brand-blue pt-3 border-t border-carbon-100 block">Webs a Medida</span>
+        </div>
+
+        <!-- 2. Bots de Discord Avanzados -->
+        <div class="clean-card p-6 rounded-xl flex flex-col justify-between" id="bots">
+          <div>
+            <div class="w-9 h-9 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center mb-4">
+              <i data-lucide="bot" class="w-4 h-4"></i>
+            </div>
+            <h3 class="font-display font-bold text-sm text-carbon-900 mb-2">Bots de Discord a medida</h3>
+            <p class="text-xs text-carbon-600 leading-relaxed mb-4">
+              Sistemas automáticos de moderación, verificación, tickets de soporte, economía, roles y bienvenida 24/7.
+            </p>
+          </div>
+          <span class="text-[10px] font-mono text-indigo-600 pt-3 border-t border-carbon-100 block">Discord.js / Python</span>
+        </div>
+
+        <!-- 3. Software y Automatizaciones -->
+        <div class="clean-card p-6 rounded-xl flex flex-col justify-between">
+          <div>
+            <div class="w-9 h-9 rounded-lg bg-cyan-50 text-brand-cyan flex items-center justify-center mb-4">
+              <i data-lucide="cpu" class="w-4 h-4"></i>
+            </div>
+            <h3 class="font-display font-bold text-sm text-carbon-900 mb-2">Software y herramientas a medida</h3>
+            <p class="text-xs text-carbon-600 leading-relaxed mb-4">
+              Scripts de automatización, conexión de APIs (Stripe, Google Sheets), herramientas de gestión y desarrollo personal.
+            </p>
+          </div>
+          <span class="text-[10px] font-mono text-brand-cyan pt-3 border-t border-carbon-100 block">Automatizaciones</span>
+        </div>
+
+        <!-- 4. Mantenimiento y Soporte -->
+        <div class="clean-card p-6 rounded-xl flex flex-col justify-between">
+          <div>
+            <div class="w-9 h-9 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4">
+              <i data-lucide="shield-check" class="w-4 h-4"></i>
+            </div>
+            <h3 class="font-display font-bold text-sm text-carbon-900 mb-2">Mantenimiento y soporte web</h3>
+            <p class="text-xs text-carbon-600 leading-relaxed mb-4">
+              Copias de seguridad, actualizaciones de texto e imágenes, resolución de dudas y servidores siempre activos.
+            </p>
+          </div>
+          <span class="text-[10px] font-mono text-emerald-600 pt-3 border-t border-carbon-100 block">Soporte Continuo</span>
+        </div>
+
+        <!-- 5. Tiendas Online -->
+        <div class="clean-card p-6 rounded-xl flex flex-col justify-between">
+          <div>
+            <div class="w-9 h-9 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center mb-4">
+              <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+            </div>
+            <h3 class="font-display font-bold text-sm text-carbon-900 mb-2">Tiendas online y e-commerce</h3>
+            <p class="text-xs text-carbon-600 leading-relaxed mb-4">
+              Vende tus productos o servicios con pagos seguros en un clic a través de Stripe, Bizum o PayPal.
+            </p>
+          </div>
+          <span class="text-[10px] font-mono text-amber-600 pt-3 border-t border-carbon-100 block">Venta Directa</span>
+        </div>
+
+        <!-- 6. Landing Pages de Alta Conversión -->
+        <div class="clean-card p-6 rounded-xl flex flex-col justify-between">
+          <div>
+            <div class="w-9 h-9 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center mb-4">
+              <i data-lucide="target" class="w-4 h-4"></i>
+            </div>
+            <h3 class="font-display font-bold text-sm text-carbon-900 mb-2">Landing pages de alta conversión</h3>
+            <p class="text-xs text-carbon-600 leading-relaxed mb-4">
+              Estructura persuasiva enfocada en captar clientes desde anuncios en Instagram, TikTok o Google.
+            </p>
+          </div>
+          <span class="text-[10px] font-mono text-rose-600 pt-3 border-t border-carbon-100 block">Conversión</span>
+        </div>
+
+        <!-- 7. Rediseño de Páginas Web -->
+        <div class="clean-card p-6 rounded-xl flex flex-col justify-between">
+          <div>
+            <div class="w-9 h-9 rounded-lg bg-blue-50 text-brand-blue flex items-center justify-center mb-4">
+              <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+            </div>
+            <h3 class="font-display font-bold text-sm text-carbon-900 mb-2">Rediseño de páginas web</h3>
+            <p class="text-xs text-carbon-600 leading-relaxed mb-4">
+              Transformamos sitios viejos o lentos en herramientas modernas que transmiten seriedad y profesionalidad.
+            </p>
+          </div>
+          <span class="text-[10px] font-mono text-brand-blue pt-3 border-t border-carbon-100 block">Modernización</span>
+        </div>
+
+        <!-- 8. Optimización SEO y Velocidad -->
+        <div class="clean-card p-6 rounded-xl flex flex-col justify-between">
+          <div>
+            <div class="w-9 h-9 rounded-lg bg-teal-50 text-teal-600 flex items-center justify-center mb-4">
+              <i data-lucide="zap" class="w-4 h-4"></i>
+            </div>
+            <h3 class="font-display font-bold text-sm text-carbon-900 mb-2">Optimización SEO y responsive</h3>
+            <p class="text-xs text-carbon-600 leading-relaxed mb-4">
+              Carga en menos de 1 segundo y código semántico para que Google indexe tu negocio y ganes visibilidad.
+            </p>
+          </div>
+          <span class="text-[10px] font-mono text-teal-600 pt-3 border-t border-carbon-100 block">Velocidad</span>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =========================================================================
+         DISCORD SHOWCASE & COMUNIDAD (Integración Real de Tymur)
+         ========================================================================= -->
+    <section class="py-12 px-6 max-w-6xl mx-auto">
+      <div class="bg-carbon-50 border border-carbon-200 p-8 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-6">
+        
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 rounded-xl bg-indigo-600 text-white flex items-center justify-center shrink-0">
+            <i data-lucide="message-square" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="font-display font-bold text-base text-carbon-900">¿Necesitas un Bot de Discord o Servidor Configurado?</h3>
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-indigo-100 text-indigo-700 font-bold">DISCORD 24/7</span>
+            </div>
+            <p class="text-xs text-carbon-600 mt-1">
+              Desarrollamos bots a medida para comunidades y empresas. Háblame directamente por Discord: <strong class="text-carbon-900" id="discord-user-badge">tymucam</strong>
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 shrink-0">
+          <button id="btn-copy-discord" class="btn-clean px-4 py-2.5 rounded-full text-xs font-semibold flex items-center gap-1.5">
+            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+            <span>Copiar Usuario</span>
+          </button>
+          <a id="btn-discord-server" href="https://discord.gg/tymucam" target="_blank" class="btn-blue px-4 py-2.5 rounded-full text-xs font-semibold flex items-center gap-1.5">
+            <span>Unirse a Discord</span>
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         EXPERIENCIA Y DIFERENCIACIÓN
+         ========================================================================= -->
+    <section class="py-20 px-6 max-w-6xl mx-auto border-t border-carbon-200/60">
+      
+      <div class="max-w-2xl mb-12">
+        <span class="text-xs font-mono text-brand-blue uppercase tracking-wider block mb-1">02 // DIFERENCIACIÓN</span>
+        <h2 class="font-display font-extrabold text-2xl sm:text-3xl text-carbon-900 tracking-tight leading-tight">
+          NO CREAMOS SIMPLEMENTE WEBS. <br />
+          <span class="text-brand-blue">CREAMOS EXPERIENCIAS DIGITALES.</span>
+        </h2>
+        <p class="text-carbon-600 text-xs sm:text-sm mt-3 leading-relaxed">
+          Evitamos las plantillas genéricas sobrecargadas. Cada proyecto se programa a medida, garantizando que tu página cargue en menos de un segundo y funcione como una herramienta comercial real.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        
+        <div class="p-5 rounded-xl border border-carbon-200 bg-white">
+          <h4 class="font-display font-bold text-xs text-carbon-900 mb-1">Diseño personalizado</h4>
+          <p class="text-xs text-carbon-600 leading-relaxed">Sin clones. Cada detalle se ajusta a lo que tu negocio necesita transmitir.</p>
+        </div>
+
+        <div class="p-5 rounded-xl border border-carbon-200 bg-white">
+          <h4 class="font-display font-bold text-xs text-carbon-900 mb-1">Velocidad y rendimiento</h4>
+          <p class="text-xs text-carbon-600 leading-relaxed">Carga instantánea. No hacemos perder el tiempo a tus visitantes.</p>
+        </div>
+
+        <div class="p-5 rounded-xl border border-carbon-200 bg-white">
+          <h4 class="font-display font-bold text-xs text-carbon-900 mb-1">Adaptación a móviles</h4>
+          <p class="text-xs text-carbon-600 leading-relaxed">Mobile-First pensado para el 80% de tus visitas que llegan desde smartphone.</p>
+        </div>
+
+        <div class="p-5 rounded-xl border border-carbon-200 bg-white">
+          <h4 class="font-display font-bold text-xs text-carbon-900 mb-1">Experiencia de usuario</h4>
+          <p class="text-xs text-carbon-600 leading-relaxed">Navegación limpia para que el cliente encuentre en 3 segundos lo que busca.</p>
+        </div>
+
+        <div class="p-5 rounded-xl border border-carbon-200 bg-white">
+          <h4 class="font-display font-bold text-xs text-carbon-900 mb-1">SEO técnico</h4>
+          <p class="text-xs text-carbon-600 leading-relaxed">Código semántico para que Google indexe tu página en los primeros puestos.</p>
+        </div>
+
+        <div class="p-5 rounded-xl border border-carbon-200 bg-white">
+          <h4 class="font-display font-bold text-xs text-carbon-900 mb-1">Seguridad y Garantía</h4>
+          <p class="text-xs text-carbon-600 leading-relaxed">Certificado SSL gratuito y código limpio sin vulnerabilidades de plugins viejos.</p>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =========================================================================
+         PROCESO DE TRABAJO (5 ETAPAS)
+         ========================================================================= -->
+    <section id="proceso" class="py-20 px-6 max-w-6xl mx-auto border-t border-carbon-200/60">
+      
+      <div class="max-w-2xl mb-12">
+        <span class="text-xs font-mono text-brand-blue uppercase tracking-wider block mb-1">03 // PROCESO</span>
+        <h2 class="font-display font-bold text-2xl sm:text-3xl text-carbon-900 tracking-tight">
+          Cómo Trabajamos
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+
+        <div class="p-5 rounded-xl border border-carbon-200 bg-carbon-50">
+          <span class="font-mono text-base font-bold text-brand-blue block mb-1">01</span>
+          <h4 class="font-display font-bold text-xs text-carbon-900 mb-1">Descubrimiento y estrategia</h4>
+          <p class="text-[11px] text-carbon-600 leading-relaxed">Hablamos de tus necesidades, tu público y la estructura que requiere tu proyecto.</p>
+        </div>
+
+        <div class="p-5 rounded-xl border border-carbon-200 bg-carbon-50">
+          <span class="font-mono text-base font-bold text-brand-blue block mb-1">02</span>
+          <h4 class="font-display font-bold text-xs text-carbon-900 mb-1">Diseño y propuesta visual</h4>
+          <p class="text-[11px] text-carbon-600 leading-relaxed">Creamos la propuesta estética para que des tu visto bueno antes de programar.</p>
+        </div>
+
+        <div class="p-5 rounded-xl border border-carbon-200 bg-carbon-50">
+          <span class="font-mono text-base font-bold text-brand-blue block mb-1">03</span>
+          <h4 class="font-display font-bold text-xs text-carbon-900 mb-1">Desarrollo y programación</h4>
+          <p class="text-[11px] text-carbon-600 leading-relaxed">Codificamos la web o bot con estándares modernos y rápidos.</p>
+        </div>
+
+        <div class="p-5 rounded-xl border border-carbon-200 bg-carbon-50">
+          <span class="font-mono text-base font-bold text-brand-blue block mb-1">04</span>
+          <h4 class="font-display font-bold text-xs text-carbon-900 mb-1">Revisión y optimización</h4>
+          <p class="text-[11px] text-carbon-600 leading-relaxed">Probamos en varios dispositivos, ajustamos detalles y pulimos la velocidad.</p>
+        </div>
+
+        <div class="p-5 rounded-xl border border-carbon-200 bg-carbon-50">
+          <span class="font-mono text-base font-bold text-brand-blue block mb-1">05</span>
+          <h4 class="font-display font-bold text-xs text-carbon-900 mb-1">Lanzamiento de la web</h4>
+          <p class="text-[11px] text-carbon-600 leading-relaxed">Publicamos en tu dominio con SSL activo y te enseñamos a gestionarlo.</p>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =========================================================================
+         PLANES Y PRECIOS (Preparados en TM_CONFIG)
+         ========================================================================= -->
+    <section id="precios" class="py-20 px-6 max-w-6xl mx-auto border-t border-carbon-200/60">
+      
+      <div class="max-w-2xl mb-12">
+        <span class="text-xs font-mono text-brand-blue uppercase tracking-wider block mb-1">04 // PLANES</span>
+        <h2 class="font-display font-bold text-2xl sm:text-3xl text-carbon-900 tracking-tight">
+          Precios Claros y Flexibles
+        </h2>
+        <p class="text-carbon-600 text-xs sm:text-sm mt-1">
+          Sin costes ocultos. Precios preparados para ser editados en segundos.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-5 items-stretch">
+
+        <!-- PLAN 1: WEB PRESENCIA -->
+        <div class="clean-card rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <span class="text-[10px] font-mono text-carbon-400 uppercase tracking-wider block mb-1">Para Empezar</span>
+            <h3 class="font-display font-bold text-lg text-carbon-900 mb-2">Web Presencia</h3>
+            <p class="text-xs text-carbon-600 leading-relaxed mb-4">
+              Landing page rápida para negocios y profesionales que necesitan mostrar sus servicios.
+            </p>
+
+            <div class="mb-5 pb-5 border-b border-carbon-100">
+              <span class="font-display font-extrabold text-3xl text-carbon-900" id="price-web-presencia">XX€</span>
+            </div>
+
+            <ul class="space-y-2.5 mb-6 text-xs text-carbon-700">
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-brand-blue"></i>
+                <span>Landing page de 1 página</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-brand-blue"></i>
+                <span>Diseño 100% móvil</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-brand-blue"></i>
+                <span>WhatsApp y llamada directa</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-brand-blue"></i>
+                <span>Dominio y certificado SSL</span>
+              </li>
+            </ul>
+          </div>
+
+          <a id="btn-plan-web-presencia" href="#" target="_blank" class="btn-clean w-full py-2.5 rounded-full text-xs font-bold uppercase text-center block">
+            Pedir Presupuesto
+          </a>
+        </div>
+
+        <!-- PLAN 2: WEB PRO + ADMIN (DESTACADO) -->
+        <div class="clean-card rounded-2xl p-6 flex flex-col justify-between border-2 border-brand-blue bg-brand-soft/20 shadow-md relative">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-brand-blue text-[9px] font-mono font-bold uppercase text-white">
+            Más Popular
+          </div>
+          <div>
+            <span class="text-[10px] font-mono text-brand-blue uppercase tracking-wider block mb-1 pt-1">Empresas</span>
+            <h3 class="font-display font-bold text-lg text-carbon-900 mb-2">Web Pro + Admin</h3>
+            <p class="text-xs text-carbon-600 leading-relaxed mb-4">
+              Sitio web completo para empresas que buscan captar clientes y tener presencia sólida.
+            </p>
+
+            <div class="mb-5 pb-5 border-b border-brand-blue/20">
+              <span class="font-display font-extrabold text-3xl text-brand-blue" id="price-web-pro">XX€</span>
+            </div>
+
+            <ul class="space-y-2.5 mb-6 text-xs text-carbon-800">
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-brand-blue"></i>
+                <span class="font-semibold">Hasta 5 páginas completas</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-brand-blue"></i>
+                <span>Panel para editar textos y fotos</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-brand-blue"></i>
+                <span>Optimización SEO Google</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-brand-blue"></i>
+                <span class="font-semibold">Garantía durante 30 días</span>
+              </li>
+            </ul>
+          </div>
+
+          <a id="btn-plan-web-pro" href="#" target="_blank" class="btn-blue w-full py-2.5 rounded-full text-xs font-bold uppercase text-center block shadow-sm">
+            Elegir Plan Pro
+          </a>
+        </div>
+
+        <!-- PLAN 3: BOTS & SOFTWARE -->
+        <div class="clean-card rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <span class="text-[10px] font-mono text-indigo-600 uppercase tracking-wider block mb-1">Comunidades</span>
+            <h3 class="font-display font-bold text-lg text-carbon-900 mb-2">Bots & Software</h3>
+            <p class="text-xs text-carbon-600 leading-relaxed mb-4">
+              Bots para Discord personalizados, herramientas a medida o scripts de automatización.
+            </p>
+
+            <div class="mb-5 pb-5 border-b border-carbon-100">
+              <span class="font-display font-extrabold text-3xl text-carbon-900" id="price-bots-software">Desde XX€</span>
+            </div>
+
+            <ul class="space-y-2.5 mb-6 text-xs text-carbon-700">
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-indigo-600"></i>
+                <span>Bot Discord 100% a medida</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-indigo-600"></i>
+                <span>Tickets, moderación o economía</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-indigo-600"></i>
+                <span>Conexión 24/7 en servidor</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-indigo-600"></i>
+                <span>Guía y soporte de instalación</span>
+              </li>
+            </ul>
+          </div>
+
+          <a id="btn-plan-bots-software" href="#" target="_blank" class="btn-clean w-full py-2.5 rounded-full text-xs font-bold uppercase text-center block">
+            Pedir Presupuesto
+          </a>
+        </div>
+
+        <!-- PLAN 4: MANTENIMIENTO -->
+        <div class="clean-card rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <span class="text-[10px] font-mono text-emerald-600 uppercase tracking-wider block mb-1">Tranquilidad</span>
+            <h3 class="font-display font-bold text-lg text-carbon-900 mb-2">Mantenimiento</h3>
+            <p class="text-xs text-carbon-600 leading-relaxed mb-4">
+              Soporte mensual continuo para cambios, copias de seguridad y seguridad activa.
+            </p>
+
+            <div class="mb-5 pb-5 border-b border-carbon-100">
+              <span class="font-display font-extrabold text-3xl text-carbon-900" id="price-mantenimiento">XX€<span class="text-xs font-normal text-carbon-400">/mes</span></span>
+            </div>
+
+            <ul class="space-y-2.5 mb-6 text-xs text-carbon-700">
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
+                <span>Copias de seguridad continuas</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
+                <span>Cambios de fotos o textos</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
+                <span>Soporte prioritario por WhatsApp</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
+                <span>Sin permanencia obligatoria</span>
+              </li>
+            </ul>
+          </div>
+
+          <a id="btn-plan-mantenimiento" href="#" target="_blank" class="btn-clean w-full py-2.5 rounded-full text-xs font-bold uppercase text-center block">
+            Activar Plan
+          </a>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =========================================================================
+         PREGUNTAS FRECUENTES (FAQ)
+         ========================================================================= -->
+    <section id="faq" class="py-20 px-6 max-w-4xl mx-auto border-t border-carbon-200/60">
+      
+      <div class="max-w-2xl mb-10">
+        <span class="text-xs font-mono text-brand-blue uppercase tracking-wider block mb-1">05 // FAQ</span>
+        <h2 class="font-display font-bold text-2xl sm:text-3xl text-carbon-900 tracking-tight">
+          Preguntas Frecuentes
+        </h2>
+      </div>
+
+      <div class="divide-y divide-carbon-200/80" id="faq-list">
+
+        <div class="py-4">
+          <button class="faq-btn w-full text-left flex items-center justify-between text-xs sm:text-sm font-semibold text-carbon-900 hover:text-brand-blue transition-colors">
+            <span>¿Cuánto tarda una página web o un bot?</span>
+            <i data-lucide="plus" class="faq-icon w-3.5 h-3.5 text-carbon-400 transition-transform duration-200"></i>
+          </button>
+          <div class="faq-answer max-h-0 overflow-hidden transition-all duration-200 text-xs text-carbon-600 leading-relaxed pt-0">
+            <p class="pt-2">
+              Una web básica o bot estándar suele estar lista en <strong>3 a 7 días</strong>. Proyectos más complejos toman entre 1 y 2 semanas. Siempre acordamos la fecha de entrega antes de iniciar.
+            </p>
+          </div>
+        </div>
+
+        <div class="py-4">
+          <button class="faq-btn w-full text-left flex items-center justify-between text-xs sm:text-sm font-semibold text-carbon-900 hover:text-brand-blue transition-colors">
+            <span>¿Qué incluye el servicio?</span>
+            <i data-lucide="plus" class="faq-icon w-3.5 h-3.5 text-carbon-400 transition-transform duration-200"></i>
+          </button>
+          <div class="faq-answer max-h-0 overflow-hidden transition-all duration-200 text-xs text-carbon-600 leading-relaxed pt-0">
+            <p class="pt-2">
+              Diseño, desarrollo, adaptación a móviles, dominio y SSL, botones directos de contacto (WhatsApp) y explicación de uso para que tengas control total.
+            </p>
+          </div>
+        </div>
+
+        <div class="py-4">
+          <button class="faq-btn w-full text-left flex items-center justify-between text-xs sm:text-sm font-semibold text-carbon-900 hover:text-brand-blue transition-colors">
+            <span>¿Se adapta a dispositivos móviles?</span>
+            <i data-lucide="plus" class="faq-icon w-3.5 h-3.5 text-carbon-400 transition-transform duration-200"></i>
+          </button>
+          <div class="faq-answer max-h-0 overflow-hidden transition-all duration-200 text-xs text-carbon-600 leading-relaxed pt-0">
+            <p class="pt-2">
+              <strong>Sí, totalmente.</strong> Probamos cada detalle en pantallas móviles para asegurar navegación rápida e intuitiva.
+            </p>
+          </div>
+        </div>
+
+        <div class="py-4">
+          <button class="faq-btn w-full text-left flex items-center justify-between text-xs sm:text-sm font-semibold text-carbon-900 hover:text-brand-blue transition-colors">
+            <span>¿Incluye posicionamiento SEO?</span>
+            <i data-lucide="plus" class="faq-icon w-3.5 h-3.5 text-carbon-400 transition-transform duration-200"></i>
+          </button>
+          <div class="faq-answer max-h-0 overflow-hidden transition-all duration-200 text-xs text-carbon-600 leading-relaxed pt-0">
+            <p class="pt-2">
+              <strong>Sí.</strong> Entregamos la web con la estructura semántica correcta y optimización de velocidad para que Google indexe tu negocio.
+            </p>
+          </div>
+        </div>
+
+        <div class="py-4">
+          <button class="faq-btn w-full text-left flex items-center justify-between text-xs sm:text-sm font-semibold text-carbon-900 hover:text-brand-blue transition-colors">
+            <span>¿Cómo se realiza el pago?</span>
+            <i data-lucide="plus" class="faq-icon w-3.5 h-3.5 text-carbon-400 transition-transform duration-200"></i>
+          </button>
+          <div class="faq-answer max-h-0 overflow-hidden transition-all duration-200 text-xs text-carbon-600 leading-relaxed pt-0">
+            <p class="pt-2">
+              Habitualmente en dos plazos: 50% al empezar para reservar fecha y el 50% restante al terminar cuando la web esté revisada y aprobada por ti.
+            </p>
+          </div>
+        </div>
+
+        <div class="py-4">
+          <button class="faq-btn w-full text-left flex items-center justify-between text-xs sm:text-sm font-semibold text-carbon-900 hover:text-brand-blue transition-colors">
+            <span>¿Existe mantenimiento posterior?</span>
+            <i data-lucide="plus" class="faq-icon w-3.5 h-3.5 text-carbon-400 transition-transform duration-200"></i>
+          </button>
+          <div class="faq-answer max-h-0 overflow-hidden transition-all duration-200 text-xs text-carbon-600 leading-relaxed pt-0">
+            <p class="pt-2">
+              Sí, ofrecemos planes de mantenimiento opcionales para que nunca tengas que preocuparte por copias de seguridad o cambios de texto.
+            </p>
+          </div>
+        </div>
+
+        <div class="py-4">
+          <button class="faq-btn w-full text-left flex items-center justify-between text-xs sm:text-sm font-semibold text-carbon-900 hover:text-brand-blue transition-colors">
+            <span>¿Cómo solicitar presupuesto?</span>
+            <i data-lucide="plus" class="faq-icon w-3.5 h-3.5 text-carbon-400 transition-transform duration-200"></i>
+          </button>
+          <div class="faq-answer max-h-0 overflow-hidden transition-all duration-200 text-xs text-carbon-600 leading-relaxed pt-0">
+            <p class="pt-2">
+              Escríbenos directamente por <strong>WhatsApp</strong> o <strong>Discord</strong> y te responderemos el mismo día con una propuesta clara.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =========================================================================
+         CTA FINAL
+         ========================================================================= -->
+    <section class="py-24 px-6 max-w-4xl mx-auto text-center border-t border-carbon-200/60">
+      
+      <h2 class="font-display font-extrabold text-2xl sm:text-4xl text-carbon-900 tracking-tight mb-3">
+        TU PRÓXIMA WEB <br />
+        <span class="text-brand-blue">PUEDE CAMBIARLO TODO.</span>
+      </h2>
+
+      <p class="text-carbon-600 text-xs sm:text-sm max-w-lg mx-auto leading-relaxed mb-8">
+        Es el momento de llevar tu negocio al siguiente nivel con una presencia digital diseñada para destacar.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a id="btn-cta-main" href="#" target="_blank" class="btn-blue px-7 py-3.5 rounded-full text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm">
+          <span>EMPEZAR MI PROYECTO</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+
+        <a id="btn-cta-discord" href="https://discord.gg/tymucam" target="_blank" class="btn-clean px-6 py-3.5 rounded-full text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2">
+          <i data-lucide="message-square" class="w-4 h-4 text-indigo-600"></i>
+          <span>Discord: <span id="label-discord">tymucam</span></span>
+        </a>
+      </div>
+
+      <p class="text-[11px] font-mono text-carbon-400 mt-6">
+        WhatsApp directo: <span id="label-phone" class="text-carbon-700 font-semibold">+34 641 723 490</span>
+      </p>
+
+    </section>
+  </main>
+
+  <!-- =========================================================================
+       FOOTER (Blanco & Azul Limpio)
+       ========================================================================= -->
+  <footer class="border-t border-carbon-200 bg-carbon-50 py-10 px-6 max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-carbon-400">
+    <div class="flex items-center gap-2">
+      <span class="w-2 h-2 rounded-full bg-brand-blue"></span>
+      <span class="text-carbon-900 font-bold">TM STUDIO</span>
+      <span>— Desarrollo Web & Software</span>
+    </div>
+
+    <div>
+      © <span id="year">2026</span> TM Studio. Todos los derechos reservados.
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       CONFIGURACIÓN TM_CONFIG & SCRIPT 3D AZUL ELÉCTRICO (144HZ+)
+       ========================================================================= -->
+  <script>
+    /**
+     * CONFIGURACIÓN CENTRALIZADA - TM STUDIO
+     * Modifica aquí precios y datos de contacto en segundos.
+     */
+    const TM_CONFIG = {
+      contacto: {
+        whatsappNumero: "34641723490",
+        whatsappVisible: "+34 641 723 490",
+        discordUsuario: "tymucam",
+        discordInvitacion: "https://discord.gg/tymucam",
+        mensajeGeneralWhatsApp: "Hola TM Studio, me interesa información sobre un proyecto."
+      },
+      precios: {
+        webPresencia: {
+          precio: "XX€",
+          mensajeWhatsApp: "Hola TM Studio, me interesa contratar el Pack Web Presencia (XX€)..."
+        },
+        webPro: {
+          precio: "XX€",
+          mensajeWhatsApp: "Hola TM Studio, me interesa el Pack Web Pro + Admin (XX€)..."
+        },
+        botsSoftware: {
+          precio: "Desde XX€",
+          mensajeWhatsApp: "Hola TM Studio, quiero pedir presupuesto para un Bot de Discord o Software a medida..."
+        },
+        mantenimiento: {
+          precio: "XX€",
+          mensajeWhatsApp: "Hola TM Studio, quiero activar el Plan de Mantenimiento Web (XX€/mes)..."
+        }
+      }
+    };
+
+    document.addEventListener("DOMContentLoaded", () => {
+      
+      if (window.lucide) lucide.createIcons();
+
+      const buildWa = (phone, text) => `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+
+      // 1. Inyectar Precios en HTML
+      const pPresencia = document.getElementById("price-web-presencia");
+      const pPro = document.getElementById("price-web-pro");
+      const pBots = document.getElementById("price-bots-software");
+      const pMantenimiento = document.getElementById("price-mantenimiento");
+
+      if (pPresencia) pPresencia.textContent = TM_CONFIG.precios.webPresencia.precio;
+      if (pPro) pPro.textContent = TM_CONFIG.precios.webPro.precio;
+      if (pBots) pBots.textContent = TM_CONFIG.precios.botsSoftware.precio;
+      if (pMantenimiento) pMantenimiento.innerHTML = `${TM_CONFIG.precios.mantenimiento.precio}<span class="text-xs font-normal text-carbon-400">/mes</span>`;
+
+      // 2. Vincular Botones de WhatsApp
+      const btnPresencia = document.getElementById("btn-plan-web-presencia");
+      const btnPro = document.getElementById("btn-plan-web-pro");
+      const btnBots = document.getElementById("btn-plan-bots-software");
+      const btnMantenimiento = document.getElementById("btn-plan-mantenimiento");
+
+      if (btnPresencia) btnPresencia.href = buildWa(TM_CONFIG.contacto.whatsappNumero, TM_CONFIG.precios.webPresencia.mensajeWhatsApp);
+      if (btnPro) btnPro.href = buildWa(TM_CONFIG.contacto.whatsappNumero, TM_CONFIG.precios.webPro.mensajeWhatsApp);
+      if (btnBots) btnBots.href = buildWa(TM_CONFIG.contacto.whatsappNumero, TM_CONFIG.precios.botsSoftware.mensajeWhatsApp);
+      if (btnMantenimiento) btnMantenimiento.href = buildWa(TM_CONFIG.contacto.whatsappNumero, TM_CONFIG.precios.mantenimiento.mensajeWhatsApp);
+
+      // 3. Botones Principales de WhatsApp
+      const generalUrl = buildWa(TM_CONFIG.contacto.whatsappNumero, TM_CONFIG.contacto.mensajeGeneralWhatsApp);
+      const heroBtn = document.getElementById("hero-btn-primary");
+      const ctaBtn = document.getElementById("btn-cta-main");
+      const headerWa = document.getElementById("header-wa");
+      if (heroBtn) heroBtn.href = generalUrl;
+      if (ctaBtn) ctaBtn.href = generalUrl;
+      if (headerWa) headerWa.href = generalUrl;
+
+      // 4. Discord
+      const labelDiscord = document.getElementById("label-discord");
+      const btnDiscord = document.getElementById("btn-cta-discord");
+      const badgeDiscord = document.getElementById("discord-user-badge");
+      const copyDiscordBtn = document.getElementById("btn-copy-discord");
+      const linkDiscordServer = document.getElementById("btn-discord-server");
+
+      if (labelDiscord) labelDiscord.textContent = TM_CONFIG.contacto.discordUsuario;
+      if (badgeDiscord) badgeDiscord.textContent = TM_CONFIG.contacto.discordUsuario;
+      if (btnDiscord) btnDiscord.href = TM_CONFIG.contacto.discordInvitacion;
+      if (linkDiscordServer) linkDiscordServer.href = TM_CONFIG.contacto.discordInvitacion;
+
+      if (copyDiscordBtn) {
+        copyDiscordBtn.addEventListener("click", () => {
+          navigator.clipboard.writeText(TM_CONFIG.contacto.discordUsuario).then(() => {
+            const originalHtml = copyDiscordBtn.innerHTML;
+            copyDiscordBtn.innerHTML = `<span>¡Copiado!</span>`;
+            setTimeout(() => copyDiscordBtn.innerHTML = originalHtml, 2000);
+          });
+        });
+      }
+
+      // 5. Teléfono
+      const labelPhone = document.getElementById("label-phone");
+      if (labelPhone) labelPhone.textContent = TM_CONFIG.contacto.whatsappVisible;
+
+      // 6. Año Footer
+      const year = document.getElementById("year");
+      if (year) year.textContent = new Date().getFullYear();
+
+      // 7. Acordeón FAQ
+      initFaq();
+
+      // 8. Escena 3D Azul Eléctrico y Cian en GPU (144Hz+)
+      initElectricBlue3D();
+
+    });
+
+    /**
+     * THREE.JS 3D ESCULTURA AZUL ELÉCTRICO Y CIAN (144HZ+)
+     * - Cero bolas blancas: material vibrante en azul eléctrico (#2563EB) y cian con reflejos.
+     * - Shader 100% procesado en GPU. Cero recálculo de vértices en CPU.
+     */
+    function initElectricBlue3D() {
+      const container = document.getElementById("webgl-hero");
+      if (!container || typeof THREE === "undefined") return;
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 50);
+      camera.position.set(0, 0, 6.0);
+
+      const renderer = new THREE.WebGLRenderer({
+        alpha: true,
+        antialias: true,
+        powerPreference: "high-performance"
+      });
+      renderer.setSize(container.clientWidth, container.clientHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      container.appendChild(renderer.domElement);
+
+      const group = new THREE.Group();
+      scene.add(group);
+
+      function updatePosition() {
+        if (window.innerWidth >= 1024) {
+          group.position.set(2.2, 0, 0);
+        } else {
+          group.position.set(0, -0.4, -1.2);
+        }
+      }
+      updatePosition();
+
+      // Shader GPU con azul eléctrico y cian vibrante (no blanco)
+      const vertexShader = `
+        uniform float uTime;
+        varying vec3 vNormal;
+        varying vec3 vPosition;
+        void main() {
+          vNormal = normalize(normalMatrix * normal);
+          vPosition = position;
+          float wave = sin(position.x * 2.5 + uTime * 1.5) * cos(position.y * 2.5 + uTime * 1.2) * 0.11;
+          vec3 newPos = position + normal * wave;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(newPos, 1.0);
+        }
+      `;
+
+      const fragmentShader = `
+        uniform float uTime;
+        varying vec3 vNormal;
+        varying vec3 vPosition;
+        void main() {
+          vec3 viewDir = normalize(-vPosition);
+          float fresnel = pow(1.0 - max(dot(viewDir, vNormal), 0.0), 2.2);
+
+          // Colores vibrantes: Azul Eléctrico y Cian Luminoso
+          vec3 deepBlue = vec3(0.08, 0.28, 0.85); // #1447D9
+          vec3 brightCyan = vec3(0.02, 0.75, 0.98); // #05C0FA
+          vec3 rimLight = vec3(0.45, 0.75, 1.0);
+
+          vec3 color = mix(deepBlue, brightCyan, fresnel * 0.9);
+          color += rimLight * pow(fresnel, 3.0) * 0.8;
+
+          gl_FragColor = vec4(color, 0.95);
+        }
+      `;
+
+      const sphereGeo = new THREE.IcosahedronGeometry(1.3, 26);
+      const sphereMat = new THREE.ShaderMaterial({
+        vertexShader: vertexShader,
+        fragmentShader: fragmentShader,
+        uniforms: { uTime: { value: 0 } },
+        transparent: true
+      });
+      const sphere = new THREE.Mesh(sphereGeo, sphereMat);
+      group.add(sphere);
+
+      // Anillo metálico azul orbitante
+      const ringGeo = new THREE.TorusGeometry(2.0, 0.02, 16, 80);
+      const ringMat = new THREE.MeshBasicMaterial({ color: 0x2563EB });
+      const ring = new THREE.Mesh(ringGeo, ringMat);
+      ring.rotation.x = Math.PI * 0.35;
+      group.add(ring);
+
+      // Segundo anillo cian
+      const ringGeo2 = new THREE.TorusGeometry(2.3, 0.012, 16, 80);
+      const ringMat2 = new THREE.MeshBasicMaterial({ color: 0x06B6D4 });
+      const ring2 = new THREE.Mesh(ringGeo2, ringMat2);
+      ring2.rotation.x = -Math.PI * 0.4;
+      group.add(ring2);
+
+      let mouseX = 0;
+      let mouseY = 0;
+      let targetX = 0;
+      let targetY = 0;
+
+      window.addEventListener("mousemove", (e) => {
+        const halfX = window.innerWidth / 2;
+        const halfY = window.innerHeight / 2;
+        mouseX = (e.clientX - halfX) / halfX;
+        mouseY = (e.clientY - halfY) / halfY;
+      }, { passive: true });
+
+      let isVisible = true;
+      const observer = new IntersectionObserver((entries) => {
+        isVisible = entries[0].isIntersecting;
+      }, { threshold: 0.05 });
+      observer.observe(document.getElementById("hero"));
+
+      const clock = new THREE.Clock();
+
+      function animate() {
+        requestAnimationFrame(animate);
+        if (!isVisible) return;
+
+        const time = clock.getElapsedTime();
+        sphereMat.uniforms.uTime.value = time;
+
+        targetX += (mouseX - targetX) * 0.05;
+        targetY += (mouseY - targetY) * 0.05;
+
+        group.rotation.y = targetX * 0.4 + time * 0.08;
+        group.rotation.x = -targetY * 0.25;
+
+        ring.rotation.z = time * 0.15;
+        ring2.rotation.z = -time * 0.12;
+
+        renderer.render(scene, camera);
+      }
+
+      animate();
+
+      window.addEventListener("resize", () => {
+        if (!container) return;
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        updatePosition();
+      }, { passive: true });
+    }
+
+    // Acordeón FAQ
+    function initFaq() {
+      const btns = document.querySelectorAll(".faq-btn");
+      btns.forEach(b => {
+        b.addEventListener("click", () => {
+          const answer = b.nextElementSibling;
+          const icon = b.querySelector(".faq-icon");
+          const isOpen = answer.style.maxHeight && answer.style.maxHeight !== "0px";
+
+          document.querySelectorAll(".faq-answer").forEach(a => a.style.maxHeight = null);
+          document.querySelectorAll(".faq-icon").forEach(i => i.style.transform = "rotate(0deg)");
+
+          if (!isOpen) {
+            answer.style.maxHeight = answer.scrollHeight + 15 + "px";
+            if (icon) icon.style.transform = "rotate(45deg)";
+          }
+        });
+      });
+    }
+  </script>
+</body>
+</html>

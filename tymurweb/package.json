@@ -1,0 +1,17 @@
+{
+  "name": "tymurweb",
+  "version": "1.0.0",
+  "description": "Página web de alta conversión para **TM Studio**, especializada en: - **Desarrollo Web Profesional** (Landing pages, webs para negocios y tiendas online). - **Bots de Discord Avanzados** (Moderación, tickets, economía, bienvenida 24/7). - **Software & Desarrollos a Medida** (Scripts, integraciones de APIs y herramientas personales). - **Mantenimiento Web Integral**.",
+  "main": "audit.js",
+  "scripts": {
+    "build": "echo TM Studio listo para produccion",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}

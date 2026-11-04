@@ -1,0 +1,71 @@
+# ==============================================================================
+# TM STUDIO — .gitignore Oficial y Seguro
+# Protección contra fuga accidental de secretos, credenciales y archivos basura
+# ==============================================================================
+
+# 1. Variables de entorno y secretos privados
+.env
+.env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+!.env.example
+
+# 2. Claves y credenciales privadas de Firebase y Google Cloud
+*firebase*.json
+*serviceAccountKey*.json
+*-adminsdk-*.json
+google-services.json
+GoogleService-Info.plist
+
+# 3. Certificados y claves SSL/TLS
+*.pem
+*.key
+*.cert
+*.crt
+*.pfx
+*.p12
+
+# 4. Dependencias y módulos de Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 5. Archivos temporales, logs y copias de seguridad
+*.log
+*.tmp
+*.bak
+*.backup
+_backup*/
+*.swp
+*.swo
+check-body.js
+verify-*.js
+
+# 6. Salidas de compilación y despliegue (Vercel)
+dist/
+build/
+.vercel/
+.output/
+.cache/
+.turbo/
+
+# 7. Configuraciones de editores de código (IDE)
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# 8. Archivos basura de sistemas operativos (Windows / macOS / Linux)
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+desktop.ini
+$RECYCLE.BIN/

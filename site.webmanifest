@@ -1,0 +1,17 @@
+{
+  "name": "TM Studio - Desarrollo Web y Software",
+  "short_name": "TM Studio",
+  "description": "Desarrollo de páginas web profesionales, bots de Discord avanzados y software a medida.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#2563EB",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
